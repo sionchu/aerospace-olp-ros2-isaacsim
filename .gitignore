@@ -1,0 +1,41 @@
+# ROS 2 / colcon output
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Python and tool caches
+.pixi/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Isaac Sim generated output
+.cache/
+cache/
+logs/
+outputs/
+screenshots/
+
+# Local captures and runtime logs
+recordings/raw/
+recordings/*.log
+recordings/*.jsonl
+ml/data/
+ml/runs/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+config/local.*
+
+# IDE and operating system
+.vscode/
+.vs/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+desktop.ini
