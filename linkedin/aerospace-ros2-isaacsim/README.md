@@ -5,16 +5,14 @@ Ready-to-publish material for the aerospace drilling portfolio project.
 ## Files
 
 - [post-en.md](post-en.md): English LinkedIn post
-- [post-ko.md](post-ko.md): Korean translation
 - [first-comment-en.md](first-comment-en.md): suggested first comment with repository links
-- [first-comment-ko.md](first-comment-ko.md): Korean translation of the first comment
 - [sources.md](sources.md): technical references and tolerance wording notes
 
 ## Recommended publishing order
 
 1. Upload `recordings/aero_drill_ros_full.mp4` directly to LinkedIn.
 2. Paste the content from `post-en.md`.
-3. Add the repository and technical documentation using `first-comment-en.md`.
+3. Add the repository and technical PR using `first-comment-en.md`.
 4. Use `recordings/aero_drill_ros_full_thumbnail.png` as the cover image if LinkedIn allows a custom thumbnail.
 
 ## Project media
