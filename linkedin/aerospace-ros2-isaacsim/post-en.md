@@ -1,57 +1,37 @@
-# From Aerospace OLP to ROS 2 + NVIDIA Isaac Sim
+I rebuilt an aerospace drilling OLP workflow with ROS 2 and NVIDIA Isaac Sim.
 
-Why has aerospace manufacturing relied so heavily on offline programming platforms such as DELMIA—and, in smaller engineering workflows, RoboDK?
+In aerospace manufacturing, robot programming is not simply about moving from point A to point B.
 
-Not simply to generate robot code.
+The real challenge is maintaining a trustworthy geometric chain:
 
-Aircraft drilling is a coordinate-system problem before it is a motion-planning problem.
+Aircraft datum → fixture/workpiece → robot base → flange → calibrated TCP → hole center and surface normal
 
-A drilling target must remain geometrically consistent across:
+Even a highly repeatable robot can miss the CAD target if base registration, joint offsets, TCP calibration, workpiece localization, or frame transformations are incorrect. For drilling, position alone is not enough—the tool also needs to align with the local surface normal.
 
-• Aircraft and product coordinates
-• Fixture and workpiece coordinates
-• Robot base coordinates
-• Robot flange and calibrated TCP
-• Hole center and surface-normal direction
+This is why deterministic offline programming platforms such as DELMIA, and tools such as RoboDK, remain valuable in aerospace manufacturing. They help engineers preserve CAD-to-process traceability, validate reach and collisions, manage coordinate systems, and prepare robot programs without occupying the physical cell.
 
-When positioning requirements are measured in tenths of a millimeter, a robot can be highly repeatable and still miss the CAD target in absolute space.
+For this portfolio project, I recreated that rule-based OLP concept using ROS 2 and NVIDIA Isaac Sim.
 
-Errors in base registration, joint zero offsets, TCP calibration, panel location, and frame transformation accumulate at the drill tip. Orientation also matters: the drill must follow the local surface normal, not merely reach an XYZ point.
-
-This is why OLP became important in aerospace manufacturing:
-
-• CAD-to-manufacturing continuity
-• Workcell and TCP calibration
-• Reach, singularity, and collision validation
-• Offline validation without stopping production
-• Reusable deterministic process logic
-
-For my latest portfolio project, I recreated this rule-based workflow using ROS 2 and NVIDIA Isaac Sim.
-
-The prototype includes:
+The digital twin includes:
 
 • An official six-axis UR10e articulation
-• A curved aircraft-panel surrogate with ten DRPE-style bushings
-• Explicit base, TCP, joint, and hole frames
-• Collision-aware cuMotion
-• A deterministic process sequence: Approach → Align → Dock → Clamp → Drill → Verify → Retract
-• ROS 2 mission, ACK, status, J1–J6, and TCP topics
-• A separate terminal node for closed-loop command and feedback
+• A curved aircraft-panel surrogate with 10 DRPE-style drilling locations
+• Explicit world, robot-base, TCP, joint, and hole coordinate frames
+• Collision-aware task-space motion using cuMotion RMPflow
+• A deterministic sequence: Approach → Align → Dock → Clamp → Drill → Verify → Retract
+• ROS 2 command, acknowledgement, process-status, J1–J6, and TCP-pose topics
+• A trained VLA-lite policy for hole selection within a safety-constrained process
+• Repeatable headless tests and a recorded closed-loop trial
 
-In the recorded trial, ROS 2 publishes `RUN_HOLE H01`. Isaac Sim accepts it, executes the full sequence, and returns live joint, TCP, process-state, and completion data through Fast DDS.
+In the demonstration, an external ROS 2 terminal publishes RUN_HOLE H01. Isaac Sim accepts the request, executes the complete drilling sequence, and returns live robot and process telemetry through Fast DDS.
 
-The key lesson: ROS 2 and Isaac Sim should not be presented as a simple replacement for production OLP.
+My main takeaway is that ROS 2 and Isaac Sim should not be treated as a simple replacement for production OLP.
 
-The stronger architecture preserves OLP’s geometric discipline while adding:
+A stronger architecture combines both approaches:
 
-• Open runtime interfaces
-• Physics-based digital-twin testing
-• Observable, recordable system states
-• Automated regression testing
-• Synthetic-data generation
-• A path toward vision, force control, and adaptive policies
+Deterministic geometry and process rules from OLP, combined with open interfaces, physics-based validation, automated testing, observability, and adaptive robotics capabilities.
 
-This is a simulation prototype, not a production-qualified drilling system. A real deployment would still require physical TCP identification, workpiece localization, laser-tracker or vision compensation, force/torque feedback, and validation on real material stacks.
+This is a simulation prototype, not a production-qualified drilling system. A real deployment would still require physical TCP identification, workpiece localization, robot and cell calibration, force/torque feedback, process qualification, and validation on representative material stacks.
 
 Built and iterated with Codex as a development partner.
 
